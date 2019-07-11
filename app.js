@@ -22,6 +22,8 @@ if (isDevelopment) {
 	redis = new Redis(process.env.REDIS_URL);
 }
 
+const clearObject = obj => JSON.parse(JSON.stringify(obj));
+
 const fetchData = async (res, query, sendResult = true) => {
 	const data = await wikitaxa.performSearch(query);
 	redis.set(query, JSON.stringify(data));
@@ -61,6 +63,22 @@ app.get('/list', async (req, res) => {
 	}));
 	Promise.all(data).then(results => {
 		res.send({ keys, results });
+	});
+});
+
+const STATUS_QUERIES = ['Boronia serrulata', 'Echinops', 'Haliaeetus leucocephalus'];
+
+app.get('/status', async (req, res) => {
+	const queue = STATUS_QUERIES.map(async q => await fetchData(null, q, false));
+	Promise.all(queue).then(results => {
+		const status = [...new Set(results.map(r => Object.keys(clearObject(r.data))).reduce((prev, curr) => prev.concat(curr)))];
+		const { sourcesCount } = wikitaxa;
+		res.send({
+			ok: status,
+			total: status.length,
+			sourcesCount,
+			percent: `${(status.length * 100 / sourcesCount).toFixed(2)}%`
+		});
 	});
 });
 

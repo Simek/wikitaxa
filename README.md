@@ -14,9 +14,11 @@ Taxon properties template (with listed databases):
 
 ### REST
 
-* ```/list``` - list chached search results
+* ```/list``` - list cached search results
 * ```/search/{q}``` - single taxon check
 * ```/search/{q1},{q2}``` - multiple taxon check
+* ```/purge/{q}``` - delete cached entry
+* ```/status``` - databases access check
 
 ### CLI
 
