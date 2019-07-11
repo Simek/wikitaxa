@@ -3,7 +3,19 @@
     "test": {
       "addons":[
         "heroku-redis:in-dyno"
-      ]
+      ],
+      "formation": {
+        "test": {
+          "quantity": 1,
+          "size": "standard-1x"
+        }
+      }
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "free"
     }
   }
 }
