@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "heroku local web",
-    "cli": "node index.js",
-    "publish": "git push heroku master"
+    "cli": "node index.js"
   },
   "engines": {
     "node": "12.6.0",
