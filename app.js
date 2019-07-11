@@ -1,15 +1,25 @@
+const express = require('express');
+
 const wikitaxa = require('./lib');
 
-const Redis = require('ioredis');
-const redis = new Redis(process.env.REDIS_URL);
-
-const express = require('express');
 const app = express();
 
-let port = process.env.PORT;
+const DEV_PORT = 5000;
+const port = process.env.PORT;
+const isDevelopment = port === null || port === "" || port == DEV_PORT;
 
-if (port == null || port == "") {
-	port = 5000;
+let redis;
+
+if (isDevelopment) {
+	// simple Redis mock
+	redis = {
+		get: (q, callback) => callback(),
+		set: () => undefined,
+		del: () => undefined,
+	}
+} else {
+	const Redis = require('ioredis');
+	redis = new Redis(process.env.REDIS_URL);
 }
 
 const fetchData = async (res, query, sendResult = true) => {
@@ -71,4 +81,4 @@ app.get('/search/:q', async (req, res) => {
 	}
 });
 
-app.listen(port);
+app.listen(isDevelopment ? DEV_PORT : port);

@@ -1,14 +1,31 @@
 # WikiTaxa
 
-Fetch reference taxonomy data/id for Wikidata entry.
+Fetch taxonomy reference data for Wikidata entry.
 
 ### Sources
 
 Wikidata page related to taxonomic properties, databases section:
-[WikiProject Taxonomy Databases](https://www.wikidata.org/wiki/Wikidata:WikiProject_Taxonomy#Databases)
+* [WikiProject Taxonomy Databases](https://www.wikidata.org/wiki/Wikidata:WikiProject_Taxonomy#Databases)
 
 Taxon properties template (with listed databases): 
-[Template:Taxonomy properties](https://www.wikidata.org/wiki/Template:Taxonomy_properties)
+* [Template:Taxonomy properties](https://www.wikidata.org/wiki/Template:Taxonomy_properties)
+
+## Usage
+
+### REST
+
+* ```/list``` - list chached search results
+* ```/search/{q}``` - single taxon check
+* ```/search/{q1},{q2}``` - multiple taxon check
+
+### CLI
+
+* ```yarn cli {q}``` - single taxon check
+* ```yarn cli {q1},{q2}```- multiple taxon check
+
+### Development
+
+* ```yarn start``` - runs REST at `localhost:5000`
 
 ## Supported DBs
 

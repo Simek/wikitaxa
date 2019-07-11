@@ -1,7 +1,7 @@
 {
   "name": "@simek/wikitaxa",
   "version": "1.0.0",
-  "description": "Fetch reference taxonomy data/id for Wikidata entry.",
+  "description": "Fetch taxonomy reference data for Wikidata entry.",
   "main": "index.js",
   "scripts": {
     "start": "heroku local web",
