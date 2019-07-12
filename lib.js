@@ -22,7 +22,12 @@ const getINaturalist = q => {
 		`https://api.inaturalist.org/v1/taxa/autocomplete?q=${q}&locale=en-US`,
 		response => {
 			if (response.data.results.length) {
-				return response.data.results.map(sp => `${sp.id} - ${sp.name} - ${sp.rank} ${sp.extinct ? '†' : ''}`);
+				return response.data.results.map(sp => ({
+					id: sp.id,
+					name: sp.name,
+					rank: sp.rank,
+					extinct: sp.extinct
+				}));
 			}
 		}
 	);
@@ -302,12 +307,29 @@ const getNLSR = q => {
 		.catch(e => console.warn(e));
 };
 
+const getIPNI = q => {
+	return req(
+		`https://www.ipni.org/api/1/search?q=${q}`,
+		response => {
+			if (response.data.results && response.data.results.length) {
+				return response.data.results.map(sp => ({
+					id: sp.id,
+					name: sp.name,
+					authorship: sp.authors,
+					rank: sp.rank
+				}));
+			}
+		}
+	);
+};
+
 //#endregion
 
 const QUEUE = [
 	getINaturalist, getGBIF, getEOL, getIRMNG, getWoRMS, getTAXREF,
 	getITIS, getTropicos, getEPPO, getPotW, getNLSR, getZooBank,
-	getCITES, getEBird, getLoB, getBritannica, getFoA, getVASCAN
+	getCITES, getEBird, getLoB, getBritannica, getFoA, getVASCAN,
+	getIPNI
 ];
 
 exports.performSearch = (query, encode = true) => {
@@ -315,10 +337,10 @@ exports.performSearch = (query, encode = true) => {
 	if (q) {
 		return axios.all(QUEUE.map(fn => fn(query))).then(axios.spread((
 			inat, gbif, eol, irmng, worms, taxref, itis, topricos, eppo,
-			potw, nlsr, zoo, cities, ebird, lob, brit, foa, vascan
+			potw, nlsr, zoo, cities, ebird, lob, brit, foa, vascan, ipni
 		) => ({
 			inat, gbif, eol, irmng, worms, taxref, itis, topricos, eppo,
-			potw, nlsr, zoo, cities, ebird, lob, brit, foa, vascan
+			potw, nlsr, zoo, cities, ebird, lob, brit, foa, vascan, ipni
 		})));
 	} else {
 		return undefined;

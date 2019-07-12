@@ -14,9 +14,9 @@ Taxon properties template (with listed databases):
 
 ### REST
 
-* ```/list``` - list cached search results
 * ```/search/{q}``` - single taxon check
 * ```/search/{q1},{q2}``` - multiple taxon check
+* ```/list``` - list all cached search results
 * ```/purge/{q}``` - delete cached entry
 * ```/status``` - databases access check
 
@@ -27,7 +27,7 @@ Taxon properties template (with listed databases):
 
 ### Development
 
-* ```yarn start``` - runs REST at `localhost:5000`
+* ```yarn start``` - run REST at `localhost:5000`
 
 ## Supported DBs
 
@@ -38,6 +38,7 @@ Taxon properties template (with listed databases):
 * FoA (Flora of Australia ID (new))
 * GBIF (Global Biodiversity Information Facility ID)
 * INaturalist (iNaturalist taxon ID)
+* IPNI (International Plant Names Index ID)
 * IRMNG (Interim Register of Marine and Nonmarine Genera ID)
 * ITIS (Integrated Taxonomic Information System ID)
 * LoB (Lepidoptera of Belgium ID)
