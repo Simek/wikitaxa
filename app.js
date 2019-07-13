@@ -26,12 +26,16 @@ const clearObject = obj => JSON.parse(JSON.stringify(obj));
 
 const fetchData = async (res, query, sendResult = true) => {
 	const data = await wikitaxa.performSearch(query);
-	redis.set(query, JSON.stringify(data));
+	const dataString = JSON.stringify(data);
+	redis.set(query, dataString);
 
 	if (sendResult) {
 		res.send(data);
 	} else {
-		return { name: query, data };
+		return {
+			name: query,
+			data: dataString === '{}' ? undefined : data
+		};
 	}
 };
 

@@ -14,24 +14,25 @@ Taxon properties template (with listed databases):
 
 ### REST
 
-* ```/search/{q}``` - single taxon check
-* ```/search/{q1},{q2}``` - multiple taxon check
-* ```/list``` - list all cached search results
-* ```/purge/{q}``` - delete cached entry
-* ```/status``` - databases access check
+* ```/search/{q}``` – single taxon check
+* ```/search/{q1},{q2}…``` – multiple taxon check
+* ```/list``` – list all cached search results
+* ```/purge/{q}``` – delete cached search result
+* ```/status``` – databases access check
 
 ### CLI
 
-* ```yarn cli {q}``` - single taxon check
-* ```yarn cli {q1},{q2}```- multiple taxon check
+* ```yarn cli {q}``` – single taxon check
+* ```yarn cli {q1},{q2}…``` – multiple taxon check
 
 ### Development
 
-* ```yarn start``` - run REST at `localhost:5000`
+* ```yarn start``` – run REST app at `localhost:5000` (with mocked Redis)
 
 ## Supported DBs
 
 * CITES (CITES Species+ ID)
+* EBio (eBiodiversity ID)
 * EBird (eBird taxon ID)
 * EPPO (EPPO Code)
 * EOL (Encyclopedia of Life ID)
