@@ -362,4 +362,20 @@ exports.performSearch = (query, encode = true) => {
 	}
 };
 
+exports.getWikidata = async q => {
+	return req(
+		`https://www.wikidata.org/w/api.php?action=wbsearchentities&search=${q}&format=json&language=en&uselang=en&type=item`,
+		data => {
+			if (data.search.length) {
+				return data.search.map(sp => ({
+					id: sp.id,
+					label: sp.label,
+					description: sp.description,
+					url: sp.concepturi
+				}));
+			}
+		}
+	);
+};
+
 exports.sourcesCount = QUEUE.length;

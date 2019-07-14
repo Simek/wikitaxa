@@ -12,13 +12,17 @@ Taxon properties template (with listed databases):
 
 ## Usage
 
-### REST
+### REST API
 
-* ```/search/{q}``` – single taxon check
-* ```/search/{q1},{q2}…``` – multiple taxon check
-* ```/list``` – list all cached search results
-* ```/purge/{q}``` – delete cached search result
-* ```/status``` – databases access check
+* ```/api/search/{q}``` – single taxon check
+* ```/api/search/{q1},{q2}…``` – multiple taxon check
+* ```/api/list``` – list all cached search results
+* ```/api/purge/{q}``` – delete cached search result
+* ```/api/status``` – databases access check
+
+#### Tools
+
+* ```/editor/{q}``` – show single taxon check result and Wikidata page (experimental)
 
 ### CLI
 

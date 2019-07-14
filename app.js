@@ -51,15 +51,44 @@ const getData = (res, query) => {
 	});
 };
 
+const getDataList = (res, query, sendResult = true) => {
+	const list = query.split(',').filter(Boolean);
+	const queue = list.map(async q => await fetchData(null, q, false));
+	Promise.all(queue).then(results => {
+		if (sendResult) {
+			res.send({ list, results });
+		} else {
+			return { list, results };
+		}
+	});
+};
+
 app.get('/', (req, res) => res.send({}));
 
-app.get('/purge/:q', (req, res) => {
+app.get('/editor/:q', async (req, res) => {
 	const query = req.params.q;
-	redis.del(query);
-	res.send({ result: `'${query}' deleted!` });
+
+	Promise.all([fetchData(null, query, false), wikitaxa.getWikidata(query)]).then(data => {
+		const json = JSON.stringify(data[0], null, 2);
+		const entry = Array.isArray(data[1]) ? data[1][0] : data[1];
+		if (entry) {
+			const codeStyle = 'display:inline-block;border:none;height:100%;width:50%;float:left;background:#222;color:#f4f4f4;outline:0;padding:24px;';
+			const iframeStyle = 'border:none;height:100%;width:50%;float:right;';
+			res.send(`
+				<html style="margin:0;padding:0;">
+					<body style="margin:0;padding:0;">
+					<textarea readonly style="${codeStyle}">${json}</textarea>
+					<iframe src="http://www.wikidata.org/entity/${entry.id}" style="${iframeStyle}" />
+					</body>
+				</html>
+			`);
+		} else {
+			res.send({});
+		}
+	});
 });
 
-app.get('/list', async (req, res) => {
+app.get('/api/list', async (req, res) => {
 	const keys = await redis.keys('*');
 	const data = keys.map(async k => ({
 		name: k,
@@ -70,9 +99,15 @@ app.get('/list', async (req, res) => {
 	});
 });
 
+app.get('/api/purge/:q', (req, res) => {
+	const query = req.params.q;
+	redis.del(query);
+	res.send({ result: `'${query}' deleted!` });
+});
+
 const STATUS_QUERIES = ['Boronia serrulata', 'Echinops', 'Haliaeetus leucocephalus'];
 
-app.get('/status', async (req, res) => {
+app.get('/api/status', async (req, res) => {
 	const queue = STATUS_QUERIES.map(async q => await fetchData(null, q, false));
 	Promise.all(queue).then(results => {
 		const status = [...new Set(results.map(r => Object.keys(clearObject(r.data))).reduce((prev, curr) => prev.concat(curr)))];
@@ -86,17 +121,13 @@ app.get('/status', async (req, res) => {
 	});
 });
 
-app.get('/search/:q', async (req, res) => {
+app.get('/api/search/:q', async (req, res) => {
 	const query = req.params.q;
 	if (!query.includes(".") && !query.includes("/")) {
 		if (!query.includes(",")) {
 			getData(res, query);
 		} else {
-			const list = query.split(',');
-			const queue = list.map(async q => await fetchData(null, q, false));
-			Promise.all(queue).then(results => {
-				res.send({ list, results });
-			});
+			getDataList(res, query);
 		}
 	} else {
 		res.send({});
