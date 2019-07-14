@@ -371,7 +371,7 @@ exports.getWikidata = async q => {
 					id: sp.id,
 					label: sp.label,
 					description: sp.description,
-					url: sp.concepturi
+					url: sp.concepturi.replace('http:', 'https:')
 				}));
 			}
 		}
