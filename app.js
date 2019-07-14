@@ -64,17 +64,15 @@ const getDataList = (res, query, sendResult = true) => {
 };
 
 const Editor = {
-	URL: 'https://www.wikidata.org/entity/',
-	switchEntry: id => {
+	switchEntry: url => {
 		return (
-			`document.getElementById('url').innerText = '${Editor.URL}${id}';
-			document.getElementById('iframe').src = '${Editor.URL}${id}';`
+			`document.getElementById('url').innerText = '${url}'; document.getElementById('iframe').src = '${url}';`
 		).replace('\n', '');
 	},
-	renderTabs: entries => {
+	renderEntry: (entries, className = '') => {
 		return entries.map(en => (
-			`<li onclick="${Editor.switchEntry(en.id)}">
-				${en.label}</br><small>${en.description}</br>${en.id}</small>
+			`<li class="${className}" onclick="${Editor.switchEntry(en.url)}">
+				${en.label}<small>${en.description ? en.description + '</br>' : ''}${en.id || ''}</small>
 			</li>`
 		)).join('').replace('\n', '');
 	}
@@ -83,31 +81,56 @@ const Editor = {
 app.get('/', (req, res) => res.send({}));
 
 app.use('/editor/css', express.static('css'));
-app.get('/editor/:q', async (req, res) => {
-	const query = req.params.q;
+app.get('/editor/search', async (req, res) => {
+	const query = req.query['q'];
 
-	Promise.all([fetchData(null, query, false), wikitaxa.getWikidata(query)]).then(data => {
-		const json = JSON.stringify(data[0], null, 2);
-		const entries = Array.isArray(data[1]) ? data[1] : [data[1]];
+	if (!query) {
+		res.send(undefined);
+	} else {
+		Promise.all([
+			fetchData(null, query, false),
+			wikitaxa.getWikidata(query),
+			wikitaxa.getWikipedia(query),
+			wikitaxa.getWikispecies(query)
+		]).then(data => {
+			const json = JSON.stringify(data[0], null, 2);
 
-		if (entries) {
-			res.send(`
-				<html>
-					<head>
-						<link rel="stylesheet" type="text/css" href="css/main.css" />
-					</head>
-					<body>
-						<textarea readonly>${json}</textarea>
-						<ul class="tabs">${Editor.renderTabs(entries)}</ul>
-						<div id="url">https://www.wikidata.org/entity/${entries[0].id}</div>
-						<iframe id="iframe" src="${Editor.URL}${entries[0].id}" />
-					</body>
-				</html>
-			`);
-		} else {
-			res.send({});
-		}
-	});
+			const dataEntries = (Array.isArray(data[1]) ? data[1] : [data[1]]).filter(Boolean);
+			const wikiEntries = (Array.isArray(data[2]) ? data[2] : [data[2]]).filter(Boolean);
+			const speciesEntries = (Array.isArray(data[3]) ? data[3] : [data[3]]).filter(Boolean);
+
+			const allEntries = dataEntries.concat(wikiEntries).concat(speciesEntries);
+
+			if (allEntries.length) {
+				res.send(`
+					<html>
+						<head>
+							<link rel="stylesheet" type="text/css" href="css/main.css" />
+						</head>
+						<body>
+							<textarea readonly >${json}</textarea>
+							<ul class="tabs">
+								<h1>Search</h1>
+								<form action="search" method="get">
+									<input id="search" type="text" name="q" />
+								</form>
+								${dataEntries.length ? '<h2 class="wikidata">Wikidata</h2>' : ''}
+								${Editor.renderEntry(dataEntries, 'wikidata-entry')}
+								${wikiEntries.length ? '<h2 class="wikipedia">Wikipedia</h2>' : ''}
+								${Editor.renderEntry(wikiEntries, 'wikipedia-entry')}
+								${speciesEntries.length ? '<h2 class="wikispecies">Wikispecies</h2>' : ''}
+								${Editor.renderEntry(speciesEntries, 'wikispecies-entry')}
+							</ul>
+							<div id="url">${allEntries[0].url}</div>
+							<iframe id="iframe" src="${allEntries[0].url}" />
+						</body>
+					</html>
+				`);
+			} else {
+				res.send({});
+			}
+		});
+	}
 });
 
 app.get('/api/list', async (req, res) => {

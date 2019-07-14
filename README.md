@@ -22,7 +22,7 @@ Taxon properties template (with listed databases):
 
 #### Tools
 
-* ```/editor/{q}``` – show single taxon check result and Wikidata page (experimental)
+* ```/editor/search?q={q}``` – show single taxon check result and Wikidata page (experimental)
 
 ### CLI
 

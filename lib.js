@@ -378,4 +378,34 @@ exports.getWikidata = async q => {
 	);
 };
 
+exports.getWikipedia = async q => {
+	return req(
+		`https://en.wikipedia.org/w/api.php?action=opensearch&format=json&formatversion=2&search=${q}&namespace=0&limit=10&suggest=true`,
+		data => {
+			if (data.length && data[1].length) {
+				return data[1].map((label, i) => ({
+					label: label,
+					description: data[2][i],
+					url: data[3][i]
+				}));
+			}
+		}
+	);
+};
+
+exports.getWikispecies = async q => {
+	return req(
+		`https://species.wikimedia.org/w/api.php?action=opensearch&format=json&formatversion=2&search=${q}&namespace=0&limit=10&suggest=true`,
+		data => {
+			if (data.length && data[1].length) {
+				return data[1].map((label, i) => ({
+					label: label,
+					description: data[2][i],
+					url: data[3][i]
+				}));
+			}
+		}
+	);
+};
+
 exports.sourcesCount = QUEUE.length;
