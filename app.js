@@ -63,22 +63,44 @@ const getDataList = (res, query, sendResult = true) => {
 	});
 };
 
+const Editor = {
+	URL: 'https://www.wikidata.org/entity/',
+	switchEntry: id => {
+		return (
+			`document.getElementById('url').innerText = '${Editor.URL}${id}';
+			document.getElementById('iframe').src = '${Editor.URL}${id}';`
+		).replace('\n', '');
+	},
+	renderTabs: entries => {
+		return entries.map(en => (
+			`<li onclick="${Editor.switchEntry(en.id)}">
+				${en.label}</br><small>${en.description}</br>${en.id}</small>
+			</li>`
+		)).join('').replace('\n', '');
+	}
+};
+
 app.get('/', (req, res) => res.send({}));
 
+app.use('/editor/css', express.static('css'));
 app.get('/editor/:q', async (req, res) => {
 	const query = req.params.q;
 
 	Promise.all([fetchData(null, query, false), wikitaxa.getWikidata(query)]).then(data => {
 		const json = JSON.stringify(data[0], null, 2);
-		const entry = Array.isArray(data[1]) ? data[1][0] : data[1];
-		if (entry) {
-			const codeStyle = 'display:inline-block;border:none;height:100%;width:50%;float:left;background:#222;color:#f4f4f4;outline:0;padding:24px;';
-			const iframeStyle = 'border:none;height:100%;width:50%;float:right;';
+		const entries = Array.isArray(data[1]) ? data[1] : [data[1]];
+
+		if (entries) {
 			res.send(`
-				<html style="margin:0;padding:0;">
-					<body style="margin:0;padding:0;">
-					<textarea readonly style="${codeStyle}">${json}</textarea>
-					<iframe src="http://www.wikidata.org/entity/${entry.id}" style="${iframeStyle}" />
+				<html>
+					<head>
+						<link rel="stylesheet" type="text/css" href="css/main.css" />
+					</head>
+					<body>
+						<textarea readonly>${json}</textarea>
+						<ul class="tabs">${Editor.renderTabs(entries)}</ul>
+						<div id="url">https://www.wikidata.org/entity/${entries[0].id}</div>
+						<iframe id="iframe" src="${Editor.URL}${entries[0].id}" />
 					</body>
 				</html>
 			`);
