@@ -4,7 +4,17 @@ html, body {
     box-sizing: border-box;
 }
 
-textarea {
+i {
+    font-style: normal;
+    margin-right: 8px;
+    font-size: 24px;
+    float: left;
+    line-height: 18px;
+    user-select: none;
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Segoe UI Symbol", "Android Emoji", "EmojiSymbols";
+}
+
+#response {
     display: inline-block;
     border: none;
     height: 100%;
@@ -17,65 +27,33 @@ textarea {
     resize: none;
 }
 
-iframe {
-    border: none;
-    height: calc(100% - 42px);
+.right-column {
     width: 60%;
     float: right;
     box-shadow: 0 0 24px 8px rgba(30, 30, 30, .17);
 }
 
-form {
-    margin: 0;
-    background: #e3b16d;
-    padding: 0 12px 12px;
-}
-
-#search {
+#iframe {
+    border: none;
     width: 100%;
-    border: 0;
-    margin: 0;
-    padding: 0 16px;
-    font-size: 1rem;
-    font-family: monospace;
-    line-height: 42px;
-    outline: 0;
-    border-bottom: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
+    height: calc(100% - 42px);
 }
 
 #url {
     height: 42px;
-    width: 60%;
-    float: right;
+    width: 100%;
     color: #e3b16d;
     background: #2e2d37;
-    font-size: 1.1rem;
-    font-weight: bold;
+    font-size: .96rem;
     font-family: monospace;
     line-height: 42px;
-    padding: 0 24px;
+    padding: 0 12px;
     box-sizing: border-box;
 }
 
-h1, h2 {
-    margin: 0;
-    padding: 8px 16px;
-    color: #2e2d37;
-    text-transform: uppercase;
-    letter-spacing: .07rem;
-}
-
-h1 {
-    background: #e3b16d;
-    font-size: 1.24rem;
-}
-
-h2 {
-    font-size: 1.16rem;
-    padding-top: 16px;
-    box-shadow: 0 0 12px 4px rgba(30, 30, 30, .12);
+#url i {
+    line-height: 40px;
+    font-size: 20px;
 }
 
 .tabs {
@@ -87,18 +65,71 @@ h2 {
     font-family: monospace;
     background: #2e2d37;
     list-style: none;
+    max-height: 100%;
+    overflow: auto;
     box-sizing: border-box;
     box-shadow: 0 0 24px 8px rgba(30, 30, 30, .17);
 }
 
-.tabs li {
+.tabs form {
+    margin: 0;
+    background: #e3b16d;
+    padding: 12px;
+    position: relative;
+}
+
+.tabs form i {
+    width: 44px;
+    height: 42px;
+    text-align: center;
+    line-height: 40px;
+    margin: 0;
+    position: absolute;
+}
+
+#search {
+    width: 100%;
+    border: 0;
+    margin: 0;
+    padding: 0 16px 0 44px;
+    font-size: 1rem;
+    font-family: monospace;
+    line-height: 42px;
+    outline: 0;
+    border-bottom: 1px solid #ccc;
+    box-sizing: border-box;
+    box-shadow: 0 0 24px 8px rgba(30, 30, 30, .17);
+}
+
+.tabs h1, .tabs h2 {
+    margin: 0;
+    padding: 8px 16px;
+    color: #2e2d37;
+    text-transform: uppercase;
+    letter-spacing: .07rem;
+}
+
+.tabs h1 {
+    background: #e3b16d;
+    font-size: 1.24rem;
+}
+
+.tabs h2 {
+    font-weight: normal;
+    font-size: 1.1rem;
     padding: 12px 16px;
-    font-weight: bold;
+    color: #fafafa;
+    border-bottom: 1px solid #3b3a47;
+    box-shadow: 0 -4px 16px 6px rgba(20, 20, 20, .15);
+}
+
+.tabs li {
+    padding: 8px 16px;
     cursor: pointer;
     border-bottom: 1px solid #3b3a47;
     transition: color .3s;
     box-sizing: border-box;
-    line-height: 24px;
+    line-height: 22px;
 }
 
 .tabs li:hover {
@@ -107,34 +138,21 @@ h2 {
 
 .tabs li small {
     display: block;
-    font-weight: normal;
-    color: #ccc;
+    color: #bbb;
     line-height: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: pre;
 }
 
-.wikidata {
-    color: #48b8bb;
-    border-bottom: 2px solid #48b8bb;
-}
-
-.wikidata-entry {
+.tabs .wikidata {
     color: #48b8bb;
 }
 
-.wikipedia {
-    color: #cc4b8c;
-    border-bottom: 2px solid #cc4b8c;
-}
-
-.wikipedia-entry {
+.tabs .wikipedia {
     color: #cc4b8c;
 }
 
-.wikispecies {
-    color: #7ea814;
-    border-bottom: 2px solid #7ea814;
-}
-
-.wikispecies-entry {
+.tabs .wikispecies {
     color: #7ea814;
 }

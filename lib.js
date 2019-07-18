@@ -1,5 +1,7 @@
 const axios = require('axios');
 
+const MAX_RESULTS = 10;
+
 const httpClient = axios.create();
 
 const req = (url, parseData) => {
@@ -10,7 +12,9 @@ const req = (url, parseData) => {
 			return finalData.length === 1 ? finalData[0] : finalData;
 		})
 		.catch(e => {
-			// console.warn(e.response.status, e.config.url);
+			if (e.response && e.response.status && e.response.status !== 404) {
+				console.warn(e.response.status, e.config.url);
+			}
 			return undefined;
 		});
 };
@@ -51,7 +55,7 @@ const getGBIF = q => {
 
 const getTropicos = q => {
 	return req(
-		`http://www.tropicos.org/Ajax/NameFastLookup.aspx?type=NameFastLookupEX&text=${q}&returnCount=5`,
+		`http://www.tropicos.org/Ajax/NameFastLookup.aspx?type=NameFastLookupEX&text=${q}&returnCount=${MAX_RESULTS}`,
 		data => {
 			if (data.length) {
 				return data.map(sp => ({
@@ -109,7 +113,7 @@ const getEBird = q => {
 
 const getBritannica = q => {
 	return req(
-		`https://www.britannica.com/search/ajax/autocomplete?query=${q}&nb=5`,
+		`https://www.britannica.com/search/ajax/autocomplete?query=${q}&nb=${MAX_RESULTS}`,
 		data => {
 			if (data.length) {
 				return data.map(sp => ({
@@ -124,7 +128,7 @@ const getBritannica = q => {
 
 const getFoA = q => {
 	return req(
-		`https://profiles.ala.org.au/profile/search?includeNameAttributes=true&matchAll=true&nameOnly=false&offset=0&opusId=foa&pageSize=25&term=${decodeURI(q)}`,
+		`https://profiles.ala.org.au/profile/search?includeNameAttributes=true&matchAll=true&nameOnly=false&offset=0&opusId=foa&pageSize=${MAX_RESULTS}&term=${decodeURI(q)}`,
 		data => {
 			const { items } = data;
 			if (items && items.length) {
@@ -194,7 +198,7 @@ const getZooBank = q => {
 
 const getEPPO = q => {
 	return req(
-		`https://gd.eppo.int/ajax/search?k=${q}%20&s=1&m=1&t=0&l=&_=${new Date().getTime() + 36000}`,
+		`https://gd.eppo.int/ajax/search?k=${q}&s=1&m=1&t=0&l=&_=${new Date().getTime() + 36000}`,
 		data => {
 			if (data.length) {
 				return data.map(sp => ({
@@ -260,7 +264,7 @@ const getWoRMS = q => {
 
 const getTAXREF = q => {
 	return req(
-		`https://inpn.mnhn.fr/inpn-web-services/autocomplete/especes/recherche?texte=${q}&max_resultats=10`,
+		`https://inpn.mnhn.fr/inpn-web-services/autocomplete/especes/recherche?texte=${q}&max_resultats=${MAX_RESULTS}`,
 		data => {
 			const finalData = data.response.docs.filter(sp => sp.lb_nom_valide === decodeURI(q));
 			if (finalData.length) {
@@ -328,11 +332,11 @@ const getEBio = q => {
 		`https://elurikkus.ee/biocache-service/occurrences/search.json?q=${q}`,
 		data => {
 			if (data.occurrences && data.occurrences.length) {
-				return data.occurrences.map(sp => ({
+				return [...new Set(data.occurrences.map(sp => ({
 					id: sp.taxonConceptID,
 					name: sp.scientificName,
 					rank: sp.taxonRank
-				}));
+				})))];
 			}
 		}
 	);
@@ -380,7 +384,7 @@ exports.getWikidata = async q => {
 
 exports.getWikipedia = async q => {
 	return req(
-		`https://en.wikipedia.org/w/api.php?action=opensearch&format=json&formatversion=2&search=${q}&namespace=0&limit=10&suggest=true`,
+		`https://en.wikipedia.org/w/api.php?action=opensearch&format=json&formatversion=2&search=${q}&namespace=0&limit=${MAX_RESULTS}&suggest=true`,
 		data => {
 			if (data.length && data[1].length) {
 				return data[1].map((label, i) => ({
@@ -395,7 +399,7 @@ exports.getWikipedia = async q => {
 
 exports.getWikispecies = async q => {
 	return req(
-		`https://species.wikimedia.org/w/api.php?action=opensearch&format=json&formatversion=2&search=${q}&namespace=0&limit=10&suggest=true`,
+		`https://species.wikimedia.org/w/api.php?action=opensearch&format=json&formatversion=2&search=${q}&namespace=0&limit=${MAX_RESULTS}&suggest=true`,
 		data => {
 			if (data.length && data[1].length) {
 				return data[1].map((label, i) => ({

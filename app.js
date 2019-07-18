@@ -42,10 +42,10 @@ const fetchData = async (res, query, sendResult = true) => {
 const getData = (res, query) => {
 	redis.get(query, (err, result) => {
 		if (result) {
-			console.warn(`🗃️ Cache: '${query}'`);
+			console.log(`🗃️ Cache: '${query}'`);
 			res.send(result);
 		} else {
-			console.warn(`🔍 Searching for: '${query}'`);
+			console.log(`🔍 Searching for: '${query}'`);
 			return fetchData(res, query);
 		}
 	});
@@ -71,18 +71,21 @@ const Editor = {
 	},
 	renderEntry: (entries, className = '') => {
 		return entries.map(en => (
-			`<li class="${className}" onclick="${Editor.switchEntry(en.url)}">
-				${en.label}<small>${en.description ? en.description + '</br>' : ''}${en.id || ''}</small>
+			`<li class="${className}" onclick="${Editor.switchEntry(en.url)}" title="${en.description}">
+				${en.label || 'no label'}
+				<small>${en.description || ''}</small>
+				<small>${en.id || ''}</small>
 			</li>`
 		)).join('').replace('\n', '');
-	}
+	},
+	parseEntries: entries => (Array.isArray(entries) ? entries : [entries]).filter(Boolean)
 };
 
 app.get('/', (req, res) => res.send({}));
 
 app.use('/editor/css', express.static('css'));
 app.get('/editor/search', async (req, res) => {
-	const query = req.query['q'];
+	const query = (req.query['q'] || "").trim();
 
 	if (!query) {
 		res.send(undefined);
@@ -95,9 +98,9 @@ app.get('/editor/search', async (req, res) => {
 		]).then(data => {
 			const json = JSON.stringify(data[0], null, 2);
 
-			const dataEntries = (Array.isArray(data[1]) ? data[1] : [data[1]]).filter(Boolean);
-			const wikiEntries = (Array.isArray(data[2]) ? data[2] : [data[2]]).filter(Boolean);
-			const speciesEntries = (Array.isArray(data[3]) ? data[3] : [data[3]]).filter(Boolean);
+			const dataEntries = Editor.parseEntries(data[1]);
+			const wikiEntries = Editor.parseEntries(data[2]);
+			const speciesEntries = Editor.parseEntries(data[3]);
 
 			const allEntries = dataEntries.concat(wikiEntries).concat(speciesEntries);
 
@@ -108,21 +111,22 @@ app.get('/editor/search', async (req, res) => {
 							<link rel="stylesheet" type="text/css" href="css/main.css" />
 						</head>
 						<body>
-							<textarea readonly >${json}</textarea>
+							<textarea id="response" readonly >${json}</textarea>
 							<ul class="tabs">
-								<h1>Search</h1>
 								<form action="search" method="get">
-									<input id="search" type="text" name="q" />
+									<i>🔍</i><input id="search" type="text" name="q" />
 								</form>
-								${dataEntries.length ? '<h2 class="wikidata">Wikidata</h2>' : ''}
-								${Editor.renderEntry(dataEntries, 'wikidata-entry')}
-								${wikiEntries.length ? '<h2 class="wikipedia">Wikipedia</h2>' : ''}
-								${Editor.renderEntry(wikiEntries, 'wikipedia-entry')}
-								${speciesEntries.length ? '<h2 class="wikispecies">Wikispecies</h2>' : ''}
-								${Editor.renderEntry(speciesEntries, 'wikispecies-entry')}
+								${dataEntries.length ? '<h2><i>🗂️</i>Wikidata</h2>' : ''}
+								${Editor.renderEntry(dataEntries, 'wikidata')}
+								${wikiEntries.length ? '<h2><i>📖</i>Wikipedia</h2>' : ''}
+								${Editor.renderEntry(wikiEntries, 'wikipedia')}
+								${speciesEntries.length ? '<h2><i>🧬</i>Wikispecies</h2>' : ''}
+								${Editor.renderEntry(speciesEntries, 'wikispecies')}
 							</ul>
-							<div id="url">${allEntries[0].url}</div>
-							<iframe id="iframe" src="${allEntries[0].url}" />
+							<div class="right-column">
+								<div id="url"><i>🌐</i>${allEntries[0].url}</div>
+								<iframe id="iframe" src="${allEntries[0].url}" />
+							</div>
 						</body>
 					</html>
 				`);
