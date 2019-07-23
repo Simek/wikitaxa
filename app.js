@@ -1,4 +1,5 @@
 const express = require('express');
+const stringifyObject = require('stringify-object');
 
 const wikitaxa = require('./lib');
 
@@ -32,10 +33,10 @@ const fetchData = async (res, query, sendResult = true) => {
 	if (sendResult) {
 		res.send(data);
 	} else {
-		return {
+		return clearObject({
 			name: query,
 			data: dataString === '{}' ? undefined : data
-		};
+		});
 	}
 };
 
@@ -64,21 +65,61 @@ const getDataList = (res, query, sendResult = true) => {
 };
 
 const Editor = {
-	switchEntry: url => {
-		return (
-			`document.getElementById('url').innerText = '${url}'; document.getElementById('iframe').src = '${url}';`
-		).replace('\n', '');
-	},
+	parseEntries: entries => (Array.isArray(entries) ? entries : [entries]).filter(Boolean),
+	switchEntry: url => `document.getElementById('iframe').src = '${url}';document.getElementById('url').innerText = '${url}';`,
 	renderEntry: (entries, className = '') => {
 		return entries.map(en => (
 			`<li class="${className}" onclick="${Editor.switchEntry(en.url)}" title="${en.description}">
-				${en.label || 'no label'}
-				<small>${en.description || ''}</small>
-				<small>${en.id || ''}</small>
+				<span>${en.label || 'no label'}</span>
+				${en.description ? `<small>${en.description}</small>` : ''}
+				${en.id ? `<small>${en.id || ''}</small>` : ''}
 			</li>`
 		)).join('').replace('\n', '');
 	},
-	parseEntries: entries => (Array.isArray(entries) ? entries : [entries]).filter(Boolean)
+	renderPage: (res, data = []) => {
+		const json = data[0] ? stringifyObject(data[0], {
+			indent: '  '
+		}) : '';
+
+		const dataEntries = Editor.parseEntries(data[1]);
+		const wikiEntries = Editor.parseEntries(data[2]);
+		const speciesEntries = Editor.parseEntries(data[3]);
+
+		const allEntries = dataEntries.concat(wikiEntries).concat(speciesEntries);
+		const noResults = !allEntries.length;
+
+		res.send(`
+			<html>
+				<head>
+					<link rel="stylesheet" type="text/css" href="css/main.css" />
+				</head>
+				<body>
+					<div class="data">
+						<div class="response-header">📦 APIs Response</div>
+						<textarea readonly id="response">${json}</textarea>
+					</div>
+					<div class="tabs">
+						<form action="search" method="get">
+							<i>🔍</i><input id="search" type="text" name="q" />
+						</form>
+						${dataEntries.length ? '<h2><i>🗂️</i>Wikidata</h2>' : ''}
+						<ul>${Editor.renderEntry(dataEntries, 'wikidata')}</ul>
+						${wikiEntries.length ? '<h2><i>📖</i>Wikipedia</h2>' : ''}
+						<ul>${Editor.renderEntry(wikiEntries, 'wikipedia')}</ul>
+						${speciesEntries.length ? '<h2><i>🧬</i>Wikispecies</h2>' : ''}
+						<ul>${Editor.renderEntry(speciesEntries, 'wikispecies')}</ul>
+						${noResults ? '<h4>No results</h4>' : ''}
+					</div>
+					<div class="browser">
+						<div class="url-wrapper">
+							<i>🌐</i><span id="url">${!noResults ? allEntries[0].url : ''}</span>
+						</div>
+						<iframe id="iframe" src="${!noResults ? allEntries[0].url : ''}"></iframe>
+					</div>
+				</body>
+			</html>
+		`);
+	}
 };
 
 app.get('/', (req, res) => res.send({}));
@@ -87,53 +128,17 @@ app.use('/editor/css', express.static('css'));
 app.get('/editor/search', async (req, res) => {
 	const query = (req.query['q'] || "").trim();
 
-	if (!query) {
-		res.send(undefined);
-	} else {
+	if (query) {
 		Promise.all([
 			fetchData(null, query, false),
 			wikitaxa.getWikidata(query),
 			wikitaxa.getWikipedia(query),
 			wikitaxa.getWikispecies(query)
 		]).then(data => {
-			const json = JSON.stringify(data[0], null, 2);
-
-			const dataEntries = Editor.parseEntries(data[1]);
-			const wikiEntries = Editor.parseEntries(data[2]);
-			const speciesEntries = Editor.parseEntries(data[3]);
-
-			const allEntries = dataEntries.concat(wikiEntries).concat(speciesEntries);
-
-			if (allEntries.length) {
-				res.send(`
-					<html>
-						<head>
-							<link rel="stylesheet" type="text/css" href="css/main.css" />
-						</head>
-						<body>
-							<textarea id="response" readonly >${json}</textarea>
-							<ul class="tabs">
-								<form action="search" method="get">
-									<i>🔍</i><input id="search" type="text" name="q" />
-								</form>
-								${dataEntries.length ? '<h2><i>🗂️</i>Wikidata</h2>' : ''}
-								${Editor.renderEntry(dataEntries, 'wikidata')}
-								${wikiEntries.length ? '<h2><i>📖</i>Wikipedia</h2>' : ''}
-								${Editor.renderEntry(wikiEntries, 'wikipedia')}
-								${speciesEntries.length ? '<h2><i>🧬</i>Wikispecies</h2>' : ''}
-								${Editor.renderEntry(speciesEntries, 'wikispecies')}
-							</ul>
-							<div class="right-column">
-								<div id="url"><i>🌐</i>${allEntries[0].url}</div>
-								<iframe id="iframe" src="${allEntries[0].url}" />
-							</div>
-						</body>
-					</html>
-				`);
-			} else {
-				res.send({});
-			}
+			Editor.renderPage(res, data);
 		});
+	} else {
+		Editor.renderPage(res);
 	}
 });
 

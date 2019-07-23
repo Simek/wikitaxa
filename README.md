@@ -1,8 +1,9 @@
 # WikiTaxa
 
-Fetch taxonomy reference data for Wikidata entry.
+Fetch taxonomy reference data for given scientific name. 
+Use web tool to verify and update Wikidata, Wikipedia and Wikispecies pages.
 
-### Sources
+#### Sources
 
 Wikidata page related to taxonomic properties, databases section:
 * [WikiProject Taxonomy Databases](https://www.wikidata.org/wiki/Wikidata:WikiProject_Taxonomy#Databases)
@@ -12,7 +13,11 @@ Taxon properties template (with listed databases):
 
 ## Usage
 
-### REST API
+#### 🧬 Tools
+
+* ```/editor/search?q={q}``` – displays single taxon check result and related Wiki projects pages
+
+#### 🌐 REST API
 
 * ```/api/search/{q}``` – single taxon check
 * ```/api/search/{q1},{q2}…``` – multiple taxon check
@@ -20,18 +25,10 @@ Taxon properties template (with listed databases):
 * ```/api/purge/{q}``` – delete cached search result
 * ```/api/status``` – databases access check
 
-#### Tools
-
-* ```/editor/search?q={q}``` – show single taxon check result and Wikidata page (experimental)
-
-### CLI
+#### 💻 CLI
 
 * ```yarn cli {q}``` – single taxon check
 * ```yarn cli {q1},{q2}…``` – multiple taxon check
-
-### Development
-
-* ```yarn start``` – run REST app at `localhost:5000` (with mocked Redis)
 
 ## Supported DBs
 
@@ -55,6 +52,17 @@ Taxon properties template (with listed databases):
 * WoRMS (World Register of Marine Species ID)
 * ZooBank ID
 
-### Other supported references
+#### Other supported references
 
 * Britannica (Encyclopedia Britannica Online ID)
+
+## Contribution
+
+#### 📋 Prerequisites
+
+* [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli#download-and-install) – runs local server
+
+#### 🛠 Development
+
+* ```yarn dev``` – start web app at `localhost:5000` (with mocked Redis)
+

@@ -1,10 +1,10 @@
 {
   "name": "@simek/wikitaxa",
   "version": "1.0.0",
-  "description": "Fetch taxonomy reference data for Wikidata entry.",
+  "description": "Fetch taxonomy reference data for given scientific name.",
   "main": "index.js",
   "scripts": {
-    "start": "heroku local web",
+    "dev": "heroku local web",
     "cli": "node index.js"
   },
   "engines": {
@@ -17,6 +17,7 @@
   "dependencies": {
     "axios": "0.19.0",
     "express": "4.17.1",
-    "ioredis": "4.11.2"
+    "ioredis": "4.11.2",
+    "stringify-object": "3.3.0"
   }
 }
