@@ -2,13 +2,13 @@
   "name": "@simek/wikitaxa",
   "version": "1.0.0",
   "description": "Fetch taxonomy reference data for given scientific name.",
-  "main": "index.js",
+  "main": "cli/index.js",
   "scripts": {
     "dev": "heroku local web",
-    "cli": "node index.js"
+    "cli": "node cli/index.js"
   },
   "engines": {
-    "node": "12.6.0",
+    "node": "12.7.0",
     "npm": "6.9.0"
   },
   "keywords": [],
@@ -18,6 +18,8 @@
     "axios": "0.19.0",
     "express": "4.17.1",
     "ioredis": "4.11.2",
+    "react": "16.8.6",
+    "react-dom": "16.8.6",
     "stringify-object": "3.3.0"
   }
 }

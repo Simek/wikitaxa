@@ -1,4 +1,4 @@
-const wikitaxa = require('./lib');
+const wikitaxa = require('../lib/wikitaxa');
 
 const args = process.argv.slice(2);
 const argsQ = args.length === 1 ? args[0] : args.join(" ");

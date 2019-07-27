@@ -1,16 +1,24 @@
 # TODO
 
+### Library
 * [MOAR](https://www.urbandictionary.com/define.php?term=moar) DBs 
-* testing solution/bench ([Heroku CI](https://devcenter.heroku.com/articles/heroku-ci#configuration-using-app-json))
 * create class for defining reference getters
     * fields: `name`, `url`, `validator`, `parser`
 * move reference getters to separate file
-* cached data max age
+* HTML parser for DBs without API (`node-html-parser`)
 * add helper for multiple synced requests to DBs 
-* HTML parser for DBs without API
+
+### App
+* `hydrate()` on client
+* local testing solution/bench
+* cached data max age
 * ESLint
 
-#### Maybe?
+#### Tools: Editor
+* display lib results as HTML tiles (clickable - url loads in iframe)
+* add button to copy Wikidata QID
 
-* 'stand-alone' CLI powered by Ink
-* browsers extension
+##### Maybe?
+
+* "stand-alone" CLI powered by Ink
+* remote testing solution/bench ([Heroku CI](https://devcenter.heroku.com/articles/heroku-ci#configuration-using-app-json))

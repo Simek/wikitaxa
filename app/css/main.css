@@ -39,6 +39,11 @@ i {
     box-sizing: border-box;
 }
 
+.response-header i {
+    font-size: 18px;
+    line-height: 40px;
+}
+
 #response {
     display: inline-block;
     border: none;
@@ -64,6 +69,16 @@ i {
     border: none;
     width: 100%;
     flex-grow: 10;
+}
+
+#iframe-loader {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,.33);
+    opacity: 0;
+    transition: opacity .2s;
+    pointer-events: none;
 }
 
 .url-wrapper {
@@ -194,14 +209,14 @@ i {
     margin-top: 4px;
 }
 
-.tabs .wikidata {
+.tabs .entry-wikidata {
     color: #48b8bb;
 }
 
-.tabs .wikipedia {
+.tabs .entry-wikipedia {
     color: #cc4b8c;
 }
 
-.tabs .wikispecies {
+.tabs .entry-wikispecies {
     color: #7ea814;
 }
