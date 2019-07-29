@@ -5,9 +5,11 @@ const RCE = React.createElement;
 const WikiSection = require('./WikiSection');
 
 module.exports = class Editor extends React.Component {
+	static displayName = 'Editor';
+
 	constructor(props) {
 		super(props);
-		const { data } = props;
+		const { data, query } = props;
 
 		const json = data && data[0] ? stringifyObject(data[0], { indent: '  ' }) : '';
 
@@ -21,6 +23,7 @@ module.exports = class Editor extends React.Component {
 
 		this.state = {
 			json,
+			query,
 			dataEntries,
 			wikiEntries,
 			speciesEntries,
@@ -32,20 +35,20 @@ module.exports = class Editor extends React.Component {
 	static parseData = entries => (Array.isArray(entries) ? entries : [entries]).filter(Boolean);
 
 	render() {
-		const { json, dataEntries, wikiEntries, speciesEntries, noResults, url } = this.state;
+		const { json, query, dataEntries, wikiEntries, speciesEntries, noResults, url } = this.state;
 		return [
 			RCE('div', { className: 'data' },
+				RCE('form', { action: 'search', method: 'get', className: 'search-form' },
+					RCE('i', null, '🔍'),
+					RCE('input', { type: 'text', name: 'q', id: 'search', placeholder: query })
+				),
 				RCE('div', { className: 'response-header' },
 					RCE('i', null, '📦'),
-					RCE('span', null, 'APIs Response')
+					RCE('span', null, 'API response')
 				),
 				RCE('textarea', { readOnly: true, id: 'response', defaultValue: json })
 			),
 			RCE('div', { className: 'tabs' },
-				RCE('form', { action: 'search', method: 'get' },
-					RCE('i', null, '🔍'),
-					RCE('input', { type: 'text', name: 'q', id: 'search' })
-				),
 				RCE(WikiSection, { icon: '🗂️', title: 'Wikidata', data: dataEntries }),
 				RCE(WikiSection, { icon: '📖️', title: 'Wikipedia', data: wikiEntries}),
 				RCE(WikiSection, { icon: '🧬', title: 'Wikispecies', data: speciesEntries}),

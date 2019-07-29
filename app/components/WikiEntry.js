@@ -1,5 +1,7 @@
 const React = require('react');
+
 const RCE = React.createElement;
+const RCTE = (el, text) => text ? React.createElement(el, null, text) : null;
 
 module.exports = class WikiEntry extends React.Component {
 	render() {
@@ -10,8 +12,8 @@ module.exports = class WikiEntry extends React.Component {
 			title: entry.description
 		},
 			RCE('span', null, `${entry.label || 'no label'}`),
-			entry.description ? RCE('small', null, `${entry.description}`) : null,
-			entry.id ? RCE('small', null, `${entry.id || ''}`) : null
+			RCTE('small', `${entry.description}`),
+			RCTE('small', `${entry.id || ''}`)
 		);
 	}
 };

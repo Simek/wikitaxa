@@ -5,6 +5,7 @@
 * create class for defining reference getters
     * fields: `name`, `url`, `validator`, `parser`
 * move reference getters to separate file
+* add `exact` search parameter (filter?)
 * HTML parser for DBs without API (`node-html-parser`)
 * add helper for multiple synced requests to DBs 
 

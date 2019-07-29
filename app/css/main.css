@@ -6,6 +6,8 @@ html, body {
 
 body {
     display: flex;
+    padding: 16px;
+    background: #1d1c23;
 }
 
 i {
@@ -25,23 +27,30 @@ i {
     flex-basis: 400px;
     box-shadow: inset 0 0 24px 8px rgba(30, 30, 30, .17);
     box-sizing: border-box;
+    margin-right: 16px;
+    border-radius: 0 0 12px 12px;
+    overflow: hidden;
 }
 
 .response-header {
-    height: 42px;
+    height: 44px;
     width: 100%;
     background: #502e74;
     color: #fafafa;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     font-family: monospace;
-    line-height: 42px;
+    line-height: 44px;
     padding: 0 12px;
     box-sizing: border-box;
+    border-radius: 12px 12px 0 0;
+    text-transform: uppercase;
+    letter-spacing: .07rem;
+    box-shadow: 0 0 24px 8px rgba(30, 30, 30, .17);
 }
 
 .response-header i {
-    font-size: 18px;
-    line-height: 40px;
+    font-size: 20px;
+    line-height: 42px;
 }
 
 #response {
@@ -50,7 +59,7 @@ i {
     padding: 24px;
     width: 100%;
     flex-grow: 10;
-    background: #222;
+    background: #332641;
     color: #f4f4f4;
     outline: 0;
     resize: none;
@@ -63,6 +72,9 @@ i {
     flex-direction: column;
     box-shadow: 0 0 24px 8px rgba(30, 30, 30, .17);
     box-sizing: border-box;
+    background: #fff;
+    border-radius: 0 12px 12px 0;
+    overflow: hidden;
 }
 
 #iframe {
@@ -83,7 +95,7 @@ i {
 
 .url-wrapper {
     height: 42px;
-    width: 100%;
+    width: calc(100% - 24px);
     color: #fafafa;
     background: #2e2d37;
     font-size: .96rem;
@@ -91,6 +103,8 @@ i {
     line-height: 42px;
     padding: 0 12px;
     box-sizing: border-box;
+    border-radius: 6px;
+    margin: 12px;
 }
 
 .url-wrapper i {
@@ -108,22 +122,25 @@ i {
     overflow: auto;
     box-sizing: border-box;
     box-shadow: 0 0 24px 8px rgba(30, 30, 30, .17);
+    border-radius: 12px 0 0 12px;
 }
 
-.tabs form {
-    margin: 0;
+.search-form {
+    margin: 0 0 16px;
     background: #e3b16d;
     padding: 12px;
     position: relative;
+    border-radius: 12px;
 }
 
-.tabs form i {
+.search-form i {
     width: 44px;
     height: 42px;
     text-align: center;
     line-height: 40px;
     margin: 0;
     position: absolute;
+    font-size: 22px;
 }
 
 #search {
@@ -138,6 +155,7 @@ i {
     border-bottom: 1px solid #ccc;
     box-sizing: border-box;
     box-shadow: 0 0 24px 8px rgba(30, 30, 30, .17);
+    border-radius: 6px;
 }
 
 .tabs h1, .tabs h2 {

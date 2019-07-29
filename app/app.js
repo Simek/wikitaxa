@@ -41,7 +41,7 @@ app.get('/editor/search', async (req, res) => {
 			AppHelper.fetchData(null, query, false),
 			...AppHelper.getWikiProjectsData(query)
 		]).then(data => {
-			SSR.renderPage(res, Editor, { data });
+			SSR.renderPage(res, Editor, { data, query });
 		});
 	} else {
 		SSR.renderPage(res, Editor);
