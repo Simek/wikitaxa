@@ -34,14 +34,16 @@ app.get('/', (req, res) => res.send({}));
 app.use('/editor/js', express.static('app/js'));
 app.use('/editor/css', express.static('app/css'));
 app.get('/editor/search', async (req, res) => {
-	const query = (req.query['q'] || "").trim();
+	const { q = '', exact = 'false' } = req.query;
+	const query = q.trim();
+	const isExact = exact === 'true' || exact === 'on';
 
 	if (query) {
 		Promise.all([
-			AppHelper.fetchData(null, query, false),
-			...AppHelper.getWikiProjectsData(query)
+			AppHelper.fetchData(null, query, false, isExact),
+			...AppHelper.getWikiProjectsData(query, isExact)
 		]).then(data => {
-			SSR.renderPage(res, Editor, { data, query });
+			SSR.renderPage(res, Editor, { data, query, isExact });
 		});
 	} else {
 		SSR.renderPage(res, Editor);

@@ -13,7 +13,19 @@ Taxon properties template (with listed databases):
 
 ## Usage
 
-#### 🧬 Tools
+#### 🧬 Lib
+
+```javascript
+const { 
+    sourcesCount: number, 
+    performSearch: (query: string, encodeQuery: boolean = true, exact: boolean = false) => object, 
+    getWikidata: async (query: string, exact: boolean = false) => Promise => array[object], 
+    getWikipedia: async (query: string, exact: boolean = false) => Promise => array[object], 
+    getWikispecies: async (query: string, exact: boolean = false) => Promise => array[object]
+ } = require('./lib/wikitaxa');
+```
+
+#### 🔧 Tools
 
 * ```/editor/search?q={q}``` – displays single taxon check result and related Wiki projects pages
 

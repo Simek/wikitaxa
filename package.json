@@ -17,7 +17,7 @@
   "dependencies": {
     "axios": "0.19.0",
     "express": "4.17.1",
-    "ioredis": "4.11.2",
+    "ioredis": "4.14.0",
     "react": "16.8.6",
     "react-dom": "16.8.6",
     "stringify-object": "3.3.0"

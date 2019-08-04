@@ -44,7 +44,7 @@ bytes@3.1.0:
   resolved "https://registry.yarnpkg.com/bytes/-/bytes-3.1.0.tgz#f6cf7933a360e0588fa9fde85651cdc7f805d1f6"
   integrity sha512-zauLjrfCG+xvoyaqLoV8bLVXXNGC4JqlxFCutSDWA6fJrTo2ZuvLYTqZ7aHBLZSMOopbzwv8f+wZcVzfVTI2Dg==
 
-cluster-key-slot@^1.0.6:
+cluster-key-slot@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/cluster-key-slot/-/cluster-key-slot-1.1.0.tgz#30474b2a981fb12172695833052bc0d01336d10d"
   integrity sha512-2Nii8p3RwAPiFwsnZvukotvow2rIHM+yQ6ZcBXGHdniadkYGZYiGmkHJIbZPIV9nfv7m/U1IPMVVcAhoWFeklw==
@@ -237,12 +237,12 @@ inherits@2.0.4:
   resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.4.tgz#0fa2c64f932917c3433a0ded55363aae37416b7c"
   integrity sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==
 
-ioredis@4.11.2:
-  version "4.11.2"
-  resolved "https://registry.yarnpkg.com/ioredis/-/ioredis-4.11.2.tgz#b76c1a8290f581ce30af3fd00f27d38a301472c6"
-  integrity sha512-2lQM1jpTzoTPg9Lj+ayfcIn8rdvGwgNP/nzeJ7IW4va/ExqxttRnTlUaxa8jOsj/e4NYKtVkbuhEAvOVPwjztA==
+ioredis@4.14.0:
+  version "4.14.0"
+  resolved "https://registry.yarnpkg.com/ioredis/-/ioredis-4.14.0.tgz#d0e83b1d308ca1ba6e849798bfe91583b560eaac"
+  integrity sha512-vGzyW9QTdGMjaAPUhMj48Z31mIO5qJLzkbsE5dg+orNi7L5Ph035htmkBZNDTDdDk7kp7e9UJUr+alhRuaWp8g==
   dependencies:
-    cluster-key-slot "^1.0.6"
+    cluster-key-slot "^1.1.0"
     debug "^4.1.1"
     denque "^1.1.0"
     lodash.defaults "^4.2.0"
