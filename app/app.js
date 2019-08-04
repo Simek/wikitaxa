@@ -24,6 +24,8 @@ const initRedis = () => {
 	}
 };
 
+SSR.convertSCSStoCSS();
+
 const app = express();
 const redis = initRedis();
 const AppHelper = new Helper(redis);

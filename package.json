@@ -20,6 +20,7 @@
     "ioredis": "4.14.0",
     "react": "16.8.6",
     "react-dom": "16.8.6",
+    "sass": "1.22.9",
     "stringify-object": "3.3.0"
   }
 }

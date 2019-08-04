@@ -12,7 +12,7 @@ module.exports = class WikiEntry extends React.Component {
 		},
 			RCE('strong', { 'data-url': entry.url }, entry.label || 'no label'),
 			RCTE('small', entry.description),
-			RCTE('small', entry.id)
+			className === 'wikidata' ? RCE('ins', { className: 'entry-copy-id' }, entry.id) : null
 		);
 	}
 };

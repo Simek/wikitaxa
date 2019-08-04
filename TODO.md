@@ -13,7 +13,7 @@
 * `hydrate()` on client
 * local testing solution/bench
 * cached data max age
-* SCSS
+* refactor SCSS (due to auto conversion from CSS)
 * ESLint
 
 #### Tools: Editor
