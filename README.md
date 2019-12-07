@@ -1,5 +1,7 @@
 # WikiTaxa
 
+#### https://wikitaxa.herokuapp.com/
+
 Fetch taxonomy reference data for given scientific name. 
 Use web tool to verify and update Wikidata, Wikipedia and Wikispecies pages.
 
@@ -74,7 +76,7 @@ const {
 
 * [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli#download-and-install) – runs local server
 
-#### 🛠 Development
+#### 🛠 Development ([TODO](TODO.md))
 
 * ```yarn dev``` – start web app at `localhost:5000` (with mocked Redis)
 
