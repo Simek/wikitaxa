@@ -62,7 +62,7 @@ module.exports = class Editor extends React.Component {
 				),
 				RCE('textarea', { readOnly: true, id: 'raw-response', className: 'response', defaultValue: json }),
 				RCE('div', { className: 'response', id: 'list-response' },
-					rawJson.length ? rawJson.map(source => RCE(Section, {
+					rawJson && rawJson.length ? rawJson.map(source => RCE(Section, {
 						title: source.name,
 						key: `response-${source.name}`,
 						data: Array.isArray(source.data) ? source.data : [source.data],

@@ -30,13 +30,15 @@ const app = express();
 const redis = initRedis();
 const AppHelper = new Helper(redis);
 
-app.get('/', (req, res) => res.send({}));
+const queryPlaceholder = "Pitta caerulea";
+
+app.get('/', (req, res) => res.redirect('/editor/search'));
 
 //#region Editor
 app.use('/editor/js', express.static('app/js'));
 app.use('/editor/css', express.static('app/css'));
 app.get('/editor/search', async (req, res) => {
-	const { q = '', exact = 'false' } = req.query;
+	const { q = queryPlaceholder, exact = 'false' } = req.query;
 	const query = q.trim();
 	const isExact = exact === 'true' || exact === 'on';
 

@@ -291,6 +291,10 @@ li strong {
 	box-sizing: border-box;
 	box-shadow: 0 0 24px 8px rgba(30, 30, 30, 0.17);
 	border-radius: 6px;
+
+	&::placeholder {
+		color: #aaa;
+	}
 }
 
 #exact {
