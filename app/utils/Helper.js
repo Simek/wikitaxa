@@ -6,7 +6,7 @@ const Helper = class {
 		this.sourcesCount = sourcesCount;
 	}
 	clearObject = obj => JSON.parse(JSON.stringify(obj));
-	uniqueKeys = results => [...new Set(results.map(r => Object.keys(this.clearObject(r.data))).reduce((prev, curr) => prev.concat(curr)))].filter(Boolean);
+	uniqueKeys = results => [...new Set(results.map(r => r.data.map(r2 => r2.name)).reduce((prev, curr) => prev.concat(curr)))].filter(Boolean);
 	getWikiProjectsData = (query, exact = false) => [
 		getWikidata(query, exact),
 		getWikipedia(query, exact),
