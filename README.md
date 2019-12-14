@@ -1,11 +1,14 @@
 # WikiTaxa
 
-#### https://wikitaxa.herokuapp.com/
+#### WikiTaxa allows you to easily fetch taxonomy reference data for given scientific name.
+* Use web Editor to verify and update Wikidata, Wikipedia and Wikispecies pages.
+* Use CLI or REST API to fetch taxonomic refrences.
 
-Fetch taxonomy reference data for given scientific name. 
-Use web tool to verify and update Wikidata, Wikipedia and Wikispecies pages.
+🦉 Try **WikiTaxa Editor** here: https://wikitaxa.herokuapp.com/
+> This demo app is running on the Heroku free dyno, for larger operations is recommended to use WikiTaxa locally.
+> Regardless of the circumstances please not flood or abuse in any other way scientific APIs or DBs using this tool. 
 
-#### Sources
+### Sources
 
 Wikidata page related to taxonomic properties, databases section:
 * [WikiProject Taxonomy Databases](https://www.wikidata.org/wiki/Wikidata:WikiProject_Taxonomy#Databases)
