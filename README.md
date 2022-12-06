@@ -4,10 +4,6 @@
 * Use web Editor to verify and update Wikidata, Wikipedia and Wikispecies pages.
 * Use CLI or REST API to fetch taxonomic refrences.
 
-🦉 Try **WikiTaxa Editor** here: https://wikitaxa.herokuapp.com/
-> This demo app is running on the Heroku free dyno, for larger operations is recommended to use WikiTaxa locally.
-> Regardless of the circumstances please not flood or abuse in any other way scientific APIs or DBs using this tool. 
-
 ### Sources
 
 Wikidata page related to taxonomic properties, databases section:
@@ -72,6 +68,73 @@ const {
 #### Other supported references
 
 * Britannica (Encyclopedia Britannica Online ID)
+
+## Example
+
+### CLI
+
+```bash
+$ npm install
+$ npm run cli Ilex Paraguayensis
+
+> @simek/wikitaxa@1.0.0 cli
+> node cli/index.js "Ilex" "Paraguayensis"
+
+[
+  {
+    name: 'Ilex Paraguayensis',
+    data: [
+      {
+        name: 'inat',
+        data: {
+          id: 193722,
+          name: 'Ilex paraguariensis',
+          rank: 'species',
+          extinct: false
+        }
+      },
+      {
+        name: 'gbif',
+        data: [
+          {
+            id: 7452209,
+            name: 'Ilex paraguariensis',
+            rank: 'SPECIES',
+            authorship: 'Hook.'
+          },
+          {
+            id: 8230801,
+            name: 'Ilex paraguariensis',
+            rank: 'SPECIES',
+            authorship: 'A.St.-Hil.'
+          },
+          {
+            id: 102283592,
+            name: 'Ilex paraguariensis',
+            rank: 'SPECIES',
+            authorship: 'A.St.-Hil.'
+          },
+          {
+            id: 103401261,
+            name: 'Ilex paraguayensis',
+            rank: 'SPECIES',
+            authorship: 'Hook., 1843'
+          },
+...
+```
+
+### Local Server
+
+```bash
+$ npm install
+$ npm install heroku
+$ npm run dev
+```
+
+Open http://localhost:5000/ and search:
+
+![Screenshot of Firefox showing the search results for Ilex Paraguayensis](screenshot.png)
+
 
 ## Contribution
 
