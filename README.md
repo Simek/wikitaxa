@@ -2,18 +2,20 @@
 
 #### WikiTaxa allows you to easily fetch taxonomy reference data for given scientific name.
 * Use web Editor to verify and update Wikidata, Wikipedia and Wikispecies pages.
-* Use CLI or REST API to fetch taxonomic refrences.
+* Use CLI or REST API to fetch taxonomic references.
 
-🦉 Try **WikiTaxa Editor** here: https://wikitaxa.herokuapp.com/
-> This demo app is running on the Heroku free dyno, for larger operations is recommended to use WikiTaxa locally.
-> Regardless of the circumstances please not flood or abuse in any other way scientific APIs or DBs using this tool. 
+🦉 Try **WikiTaxa Editor** here: https://wikitaxa.onrender.com/
+
+> **Note**
+> This demo app is running on the Render free plan, for larger operations is recommended to use WikiTaxa locally.
+> Regardless of the circumstances please not flood or abuse in any other way scientific APIs or DBs using this tool.
 
 ### Sources
 
 Wikidata page related to taxonomic properties, databases section:
 * [WikiProject Taxonomy Databases](https://www.wikidata.org/wiki/Wikidata:WikiProject_Taxonomy#Databases)
 
-Taxon properties template (with listed databases): 
+Taxon properties template (with listed databases):
 * [Template:Taxonomy properties](https://www.wikidata.org/wiki/Template:Taxonomy_properties)
 
 ## Usage
@@ -22,30 +24,43 @@ Taxon properties template (with listed databases):
 
 ```javascript
 const { 
-    sourcesCount: number, 
-    performSearch: (query: string, encodeQuery: boolean = true, exact: boolean = false) => object, 
-    getWikidata: async (query: string, exact: boolean = false) => Promise => array[object], 
-    getWikipedia: async (query: string, exact: boolean = false) => Promise => array[object], 
-    getWikispecies: async (query: string, exact: boolean = false) => Promise => array[object]
- } = require('./lib/wikitaxa');
+  sourcesCount: number, 
+  performSearch: (query: string, encodeQuery: boolean = true, exact: boolean = false) => object, 
+  getWikidata: async (query: string, exact: boolean = false) => Promise => array[object], 
+  getWikipedia: async (query: string, exact: boolean = false) => Promise => array[object], 
+  getWikispecies: async (query: string, exact: boolean = false) => Promise => array[object]
+} = require('./lib/wikitaxa');
 ```
 
-#### 🔧 Tools
+#### 🔧 Tools: Editor
 
-* ```/editor/search?q={q}``` – displays single taxon check result and related Wiki projects pages
+<img width="480" src="https://user-images.githubusercontent.com/719641/208249891-ebaad58e-1317-47fd-a595-1c1acd5e63bc.png" />
+
+* `/editor/search?q={q}` – displays single taxon check result and related Wiki projects pages
 
 #### 🌐 REST API
 
-* ```/api/search/{q}``` – single taxon check
-* ```/api/search/{q1},{q2}…``` – multiple taxon check
-* ```/api/list``` – list all cached search results
-* ```/api/purge/{q}``` – delete cached search result
-* ```/api/status``` – databases access check
+* `/api/search/{q}` – single taxon check
+* `/api/search/{q1},{q2}…` – multiple taxon check
+* `/api/status` – databases access check
+
+**Temporarily disabled**
+* `/api/list` – list all cached search results
+* `/api/purge/{q}` – delete cached search result
 
 #### 💻 CLI
 
-* ```yarn cli {q}``` – single taxon check
-* ```yarn cli {q1},{q2}…``` – multiple taxon check
+* `yarn cli {q}` – single taxon check, example usage:
+
+  ```sh
+  yarn cli coccinea
+  yarn cli "pitta maxima"
+  ```
+* `yarn cli {q1},{q2}…` – multiple taxon check, example usage:
+
+  ```sh
+  yarn cli "coccinea,pitta maxima"
+  ```
 
 ## Supported DBs
 
@@ -75,11 +90,6 @@ const {
 
 ## Contribution
 
-#### 📋 Prerequisites
-
-* [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli#download-and-install) – runs local server
-
 #### 🛠 Development ([TODO](TODO.md))
 
-* ```yarn dev``` – start web app at `localhost:5000` (with mocked Redis)
-
+* `yarn dev` – start web app at http://localhost:5000, with mocked Redis.

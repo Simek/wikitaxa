@@ -7,7 +7,9 @@ const Editor = require('./components/Editor');
 
 const DEV_PORT = 5000;
 const port = process.env.PORT;
-const isDevelopment = port === null || port === "" || port == DEV_PORT;
+
+const isDevelopment = !port || port === "" || port == DEV_PORT;
+const runningPort = isDevelopment ? DEV_PORT : port;
 
 const initRedis = () => {
 	if (isDevelopment) {
@@ -58,6 +60,7 @@ app.get('/editor/search', async (req, res) => {
 //#region REST API
 const STATUS_QUERIES = ['Boronia serrulata', 'Echinops', 'Haliaeetus leucocephalus'];
 
+/** Temporarily disable cache listing
 app.get('/api/list', async (req, res) => {
 	const keys = await redis.keys('*');
 	const data = keys.map(async k => ({
@@ -74,6 +77,7 @@ app.get('/api/purge/:q', (req, res) => {
 	redis.del(query);
 	res.send({ result: `'${query}' deleted!` });
 });
+**/
 
 app.get('/api/status', async (req, res) => {
 	const queue = STATUS_QUERIES.map(async q => await AppHelper.fetchData(null, q, false));
@@ -103,4 +107,6 @@ app.get('/api/search/:q', async (req, res) => {
 });
 //#endregion
 
-app.listen(isDevelopment ? DEV_PORT : port);
+app.listen(runningPort);
+
+console.info(`Wikitaxa is running at http://localhost:${runningPort}`)

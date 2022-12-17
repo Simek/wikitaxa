@@ -4,7 +4,7 @@
   "description": "Fetch taxonomy reference data for given scientific name.",
   "main": "cli/index.js",
   "scripts": {
-    "dev": "heroku local web",
+    "dev": "node app/app.js",
     "cli": "node cli/index.js"
   },
   "engines": {
@@ -15,12 +15,12 @@
   "author": "Simek",
   "license": "MIT",
   "dependencies": {
-    "axios": "0.21.2",
-    "express": "4.17.3",
+    "axios": "1.2.1",
+    "express": "4.18.2",
     "ioredis": "4.14.1",
     "react": "16.12.0",
     "react-dom": "16.12.0",
-    "sass": "1.23.7",
+    "sass": "1.57.0",
     "stringify-object": "3.3.0"
   }
 }
