@@ -8,14 +8,14 @@ module.exports = class Section extends React.Component {
 			entry: en,
 			source: title,
 			className,
-			key: en.id || en.label || en.name
+			key: en.id ?? en.label ?? en.name ?? en.key
 		}))
 	};
 	render() {
 		const { data, title, icon, headerComponent } = this.props;
 		return data.length ? [
-			RCE(headerComponent, { icon, title }),
-			RCE('ul', null, this.renderEntries(data, title.toLowerCase()))
+			RCE(headerComponent, { icon, title, key: `title-header-${title}` }),
+			RCE('ul', { key: `list-${title}` }, this.renderEntries(data, title.toLowerCase()))
 		] : null;
 	}
 };

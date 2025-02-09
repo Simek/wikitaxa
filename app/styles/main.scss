@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 html {
 	margin: 0;
 	padding: 0;
@@ -169,7 +171,7 @@ li strong {
 			right: 12px;
 			border: .1rem solid #40314f;
 			&:hover {
-				background: darken(#40314f, .05);
+				background: color.adjust(#40314f, $lightness: -0.05%);
 				color: #fafafa;
 			}
 		}
@@ -358,7 +360,7 @@ li strong {
 		border: .1rem solid #3b3a46;
 		margin-top: 4px;
 		&:hover {
-			background: darken(#43404f, .05);
+			background: color.adjust(#43404f, $lightness: -0.05%);
 			color: #fafafa;
 		}
 	}

@@ -44,11 +44,11 @@ module.exports = class Editor extends React.Component {
 	render() {
 		const { json, rawJson, query, isExact, dataEntries, wikiEntries, speciesEntries, noResults, url } = this.state;
 		return [
-			RCE('div', { className: 'data' },
+			RCE('div', { className: 'data', key: 'data' },
 				RCE('form', { action: 'search', method: 'get', className: 'search-form' },
-					RCE('i', null, '🔍'),
-					RCE('input', { type: 'text', name: 'q', id: 'search', placeholder: query }),
-					RCE('input', { type: 'checkbox', name: 'exact', id: 'exact', defaultChecked: isExact, title: 'Only exact matches' })
+					RCE('i', { key: 'search-icon' }, '🔍'),
+					RCE('input', { type: 'text', name: 'q', id: 'search', key: 'search', placeholder: query }),
+					RCE('input', { type: 'checkbox', name: 'exact', id: 'exact', key: 'exact', defaultChecked: isExact, title: 'Only exact matches' })
 				),
 				RCE('div', { className: 'response-header' },
 					RCE('i', null, '📦'),
@@ -56,8 +56,8 @@ module.exports = class Editor extends React.Component {
 				),
 				RCE('div', { className: 'response-type-select' },
 					RCE('div', { className: 'response-type-wrapper' },
-						RCE('div', { className: 'response-type active' }, 'List'),
-						RCE('div', { className: 'response-type' }, 'JSON')
+						RCE('div', { className: 'response-type active', key: 'response-type-list' }, 'List'),
+						RCE('div', { className: 'response-type', key: 'response-type-json' }, 'JSON')
 					)
 				),
 				RCE('textarea', { readOnly: true, id: 'raw-response', className: 'response', defaultValue: json }),
@@ -71,13 +71,13 @@ module.exports = class Editor extends React.Component {
 					})) : RCE('h4', null, 'No results')
 				)
 			),
-			RCE('div', { className: 'tabs' },
+			RCE('div', { className: 'tabs', key: 'tabs' },
 				RCE(Section, { icon: '🗂️', title: 'Wikidata', data: dataEntries, headerComponent: WikiHeader, childComponent: WikiEntry }),
 				RCE(Section, { icon: '📖️', title: 'Wikipedia', data: wikiEntries, headerComponent: WikiHeader, childComponent: WikiEntry }),
 				RCE(Section, { icon: '🧬', title: 'Wikispecies', data: speciesEntries, headerComponent: WikiHeader, childComponent: WikiEntry }),
 				noResults ? RCE('h4', null, 'No results') : null
 			),
-			RCE('div', { className: 'browser' },
+			RCE('div', { className: 'browser', key: 'browser' },
 				RCE('div', { className: 'url-wrapper' },
 					RCE('i', null, '🌐'),
 					RCE('span', { id: 'url' }, url)
@@ -85,7 +85,7 @@ module.exports = class Editor extends React.Component {
 				RCE('iframe', { readOnly: true, src: url, id: 'iframe' }),
 				RCE('div', { id: 'iframe-loader' })
 			),
-			RCE('div', { id: 'temp' })
+			RCE('div', { id: 'temp', key: 'temp' })
 		];
 	}
 };

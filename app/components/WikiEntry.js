@@ -8,7 +8,8 @@ module.exports = class WikiEntry extends React.Component {
 		const { className, entry } = this.props;
 		return RCE('li', {
 			className: `entry-${className}`,
-			title: entry.description
+			title: entry.description,
+			key: `entry-${entry.url}`
 		},
 			RCE('strong', { 'data-url': entry.url }, entry.label || 'no label'),
 			RCTE('small', entry.description),
