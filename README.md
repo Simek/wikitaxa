@@ -50,16 +50,16 @@ const {
 
 #### 💻 CLI
 
-* `yarn cli {q}` – single taxon check, example usage:
+* `bun cli {q}` – single taxon check, example usage:
 
   ```sh
-  yarn cli coccinea
-  yarn cli "pitta maxima"
+  bun cli coccinea
+  bun cli "pitta maxima"
   ```
-* `yarn cli {q1},{q2}…` – multiple taxon check, example usage:
+* `bun cli {q1},{q2}…` – multiple taxon check, example usage:
 
   ```sh
-  yarn cli "coccinea,pitta maxima"
+  bun cli "coccinea,pitta maxima"
   ```
 
 ## Supported DBs
@@ -92,4 +92,4 @@ const {
 
 #### 🛠 Development ([TODO](TODO.md))
 
-* `yarn dev` – start web app at http://localhost:5000, with mocked Redis.
+* `bun dev` – start web app at http://localhost:5000, with mocked Redis.
